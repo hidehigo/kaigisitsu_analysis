@@ -50,6 +50,17 @@ class Tasks::MakeData1
       p [room, startdatetime, hourly_index, enddatetime]
       while ( hourly_index < enddatetime && hourly_index.to_date <= startdatetime.to_date ) do
         p hourly_index.strftime('%H:%M:%S')
+        # 複数設備の場合
+        if row[12].to_i > 1 
+          if Duplication.find_by_org_id(row[2])
+            # ダサいけどいいや
+            hourly_index = hourly_index.advance({:hours => 1})
+            next
+          else
+            dup = Duplication.new(:org_id => row[2].to_i)
+            dup.save
+          end
+        end
         sch = Schedule1.new(
           :date => hourly_index.strftime('%Y-%m-%d'), 
           :time => hourly_index.strftime('%H:%M:%S'), 
