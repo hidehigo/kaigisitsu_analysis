@@ -60,7 +60,7 @@ class Tasks::MakeData1
         sch.save
         hourly_index = hourly_index.advance({:hours => 1})
       end
-      #break if idx > 10
+      break if idx > 100
       idx += 1
     end
 
