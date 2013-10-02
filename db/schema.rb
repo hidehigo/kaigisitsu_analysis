@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131002050643) do
+ActiveRecord::Schema.define(version: 20131002055328) do
 
   create_table "duplications", force: true do |t|
     t.integer  "org_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20131002050643) do
     t.datetime "updated_at"
     t.integer  "org_id"
     t.string   "room"
+    t.string   "weekday"
   end
 
 end
