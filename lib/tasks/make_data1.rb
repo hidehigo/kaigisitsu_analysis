@@ -30,10 +30,10 @@ class Tasks::MakeData1
     "【8F】GX)スペース8-2"  => "'8-2",
     "【8F】GX)スペース8-3"  => "'8-3"
   }
+  @wday = %w(月 火 水 木 金 土 日)
   def self.execute(csv_file_name = 'data/gx_facility.csv')
     reader = CSV.open(csv_file_name, "r")
     p reader.take(1)[0]
-    p @rooms
     idx = 0
     reader.each do |row|
       room = @rooms[row[3]]
@@ -56,7 +56,9 @@ class Tasks::MakeData1
           :category => row[10], 
           :member => row[11],
           :org_id => row[2],
-          :room => room)
+          :room => room,
+          :weekday => @wday[startdatetime.wday-1]
+        )
         sch.save
         hourly_index = hourly_index.advance({:hours => 1})
       end
