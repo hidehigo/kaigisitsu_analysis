@@ -51,19 +51,21 @@ class Tasks::MakeData1
       while ( hourly_index < enddatetime && hourly_index.to_date <= startdatetime.to_date ) do
         p hourly_index.strftime('%H:%M:%S')
         dup_flag = 0
+        datestr = hourly_index.strftime('%Y-%m-%d')
+        timestr = hourly_index.strftime('%H:%M:%S')
         # 複数設備の場合
         if row[12].to_i > 1 
-          if Duplication.find_by_org_id(row[2])
+          if Duplication.find_by_org_id_and_date_and_time(row[2], datestr, timestr)
             # 重複設備の2件目以降の場合は、dupのフラグを立てる
             dup_flag = 1
           else
-            dup = Duplication.new(:org_id => row[2].to_i)
+            dup = Duplication.new(:org_id => row[2].to_i, :date => datestr, :time => timestr)
             dup.save
           end
         end
         sch = Schedule1.new(
-          :date => hourly_index.strftime('%Y-%m-%d'), 
-          :time => hourly_index.strftime('%H:%M:%S'), 
+          :date => datestr,
+          :time => timestr, 
           :category => row[10], 
           :member => row[11],
           :org_id => row[2],

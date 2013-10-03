@@ -11,12 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131002065200) do
+ActiveRecord::Schema.define(version: 20131003094517) do
 
   create_table "duplications", force: true do |t|
     t.integer  "org_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "date"
+    t.time     "time"
   end
 
   create_table "schedule1s", force: true do |t|
