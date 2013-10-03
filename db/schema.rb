@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131003094517) do
+ActiveRecord::Schema.define(version: 20131003231548) do
 
   create_table "duplications", force: true do |t|
     t.integer  "org_id"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20131003094517) do
     t.string   "room"
     t.string   "weekday"
     t.boolean  "dup"
+    t.string   "member_class"
   end
 
 end

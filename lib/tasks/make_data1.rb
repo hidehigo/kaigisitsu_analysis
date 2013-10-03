@@ -63,11 +63,20 @@ class Tasks::MakeData1
             dup.save
           end
         end
+        # 人数を幅で。ベタ書き
+        member = row[11].to_i
+        member_class = 0
+        if member > 20 then
+          member_class = "20~"
+        else 
+          member_class = (2 * (member / 2.0 ).ceil).to_s
+        end
         sch = Schedule1.new(
           :date => datestr,
           :time => timestr, 
           :category => row[10], 
-          :member => row[11],
+          :member => member,
+          :member_class => member_class,
           :org_id => row[2],
           :room => room,
           :weekday => @wday[startdatetime.wday-1],
@@ -76,7 +85,7 @@ class Tasks::MakeData1
         sch.save
         hourly_index = hourly_index.advance({:hours => 1})
       end
-      break if idx > 100
+      break if idx > 200
       idx += 1
     end
 
