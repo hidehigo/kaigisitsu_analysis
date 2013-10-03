@@ -50,12 +50,12 @@ class Tasks::MakeData1
       p [room, startdatetime, hourly_index, enddatetime]
       while ( hourly_index < enddatetime && hourly_index.to_date <= startdatetime.to_date ) do
         p hourly_index.strftime('%H:%M:%S')
+        dup_flag = 0
         # 複数設備の場合
         if row[12].to_i > 1 
           if Duplication.find_by_org_id(row[2])
-            # ダサいけどいいや
-            hourly_index = hourly_index.advance({:hours => 1})
-            next
+            # 重複設備の2件目以降の場合は、dupのフラグを立てる
+            dup_flag = 1
           else
             dup = Duplication.new(:org_id => row[2].to_i)
             dup.save
@@ -68,7 +68,8 @@ class Tasks::MakeData1
           :member => row[11],
           :org_id => row[2],
           :room => room,
-          :weekday => @wday[startdatetime.wday-1]
+          :weekday => @wday[startdatetime.wday-1],
+          :dup => dup_flag
         )
         sch.save
         hourly_index = hourly_index.advance({:hours => 1})
